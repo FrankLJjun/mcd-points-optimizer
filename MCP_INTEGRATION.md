@@ -57,3 +57,28 @@
 
 - 单个 Token 限流 600 次/分钟（429），代码中所有调用均为用户主动触发，单次会话请求极少，不会触发限流。
 - 真实联调失败时（如 Token 缺失/过期），CLI 自动降级为演示模式，分析逻辑不受影响。
+
+## 6. 真实联调记录（2026-10-24 实测）
+
+为证明「真实使用麦当劳 MCP 能力」，本项目于 2026-10-24 使用真实 Token 实连 `https://mcp.mcd.cn` 完成验证：
+
+- **连接成功**：`initialize` + `notifications/initialized` 握手通过；
+- **工具清单**：`tools/list` 返回 **35 个**可用工具（完整列表见下）；
+- **只读调用成功**：`query-my-account`、`mall-points-products`、`query-lottery-info`、`query-my-coupons`、`available-coupons`、`query-my-prizes`、`query-promotions` 均返回真实业务数据；
+- **写操作成功**：`auto-bind-coupons` 真实领取到 3 张麦麦省券（返回 `success:true`），证明端到端贯通。
+
+**实测可用工具（35 个）：**
+
+```
+query-my-prizes | query-meal-assistance | query-survey-coupon | mall-order-list
+query-party-store-session | auto-bind-coupons | query-my-coupons | query-store-coupons
+query-meals | query-nearby-stores | calculate-price | delivery-query-stores
+query-party-store-date | query-order | mall-product-detail | mall-order-detail
+party-order-create | available-coupons | order-list | draw-lottery
+mall-create-order | campaign-calendar | list-nutrition-foods | delivery-create-address
+create-order | query-promotions | query-lottery-info | query-party-city
+cancel-order | delivery-query-addresses | now-time-info | query-meal-detail
+query-my-account | mall-points-products | query-party-store
+```
+
+本项目重点调用的能力域（此前榜单中被严重低估）：`mall-points-products` / `mall-product-detail` / `mall-create-order`（积分商城）、`query-lottery-info` / `draw-lottery` / `query-my-prizes`（积分抽奖）、`available-coupons` / `auto-bind-coupons` / `query-my-coupons`（麦麦省券）、`query-my-account`（积分账户）。
