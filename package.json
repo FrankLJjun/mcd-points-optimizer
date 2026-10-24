@@ -1,0 +1,24 @@
+{
+  "name": "mcd-points-optimizer",
+  "version": "1.0.0",
+  "description": "麦麦积分操盘手 — 基于麦当劳 MCP 的积分商城 / 抽奖 / 优惠券最优解分析器",
+  "type": "module",
+  "bin": {
+    "mcd-points": "src/cli.js"
+  },
+  "scripts": {
+    "test": "node --test src/optimizer.test.js",
+    "start": "node src/cli.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "mcdonalds",
+    "mcp",
+    "points",
+    "optimizer",
+    "workbuddy"
+  ],
+  "license": "MIT"
+}
